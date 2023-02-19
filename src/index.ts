@@ -27,12 +27,21 @@ function longestNumber(array: number[]) {
 }
 
 function radixSort(array: number[]) {
-    const numberOfPlaces = longestNumber(array);
-
-    let buckets: number[][];
+    let buckets: any[][] = new Array(10);
     for (let i = 0; i < 10; i++) {
         buckets[i] = new Array(2);
     }
+
+    // now sort
+    const numberOfPlaces = longestNumber(array);
+    for (let i = 0; i < numberOfPlaces; i++) {
+        for (let j = 0; j < array.length; j++) {
+            let place = array[j] % 1;
+            buckets[place][0] = array[j];
+        }
+    }
+
+    const holder = buckets;
 
     let newArray = [];
     return newArray;
