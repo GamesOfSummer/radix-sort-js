@@ -36,7 +36,7 @@ function radixSort(array: number[]) {
     const numberOfPlaces = longestNumber(array);
     for (let i = 0; i < numberOfPlaces; i++) {
         for (let j = 0; j < array.length; j++) {
-            let place = array[j] % 1;
+            let place = array[j] % 10;
             buckets[place][0] = array[j];
         }
     }

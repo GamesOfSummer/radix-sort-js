@@ -28,7 +28,7 @@ function radixSort(array) {
     var numberOfPlaces = longestNumber(array);
     for (var i = 0; i < numberOfPlaces; i++) {
         for (var j = 0; j < array.length; j++) {
-            var place = array[j] % 1;
+            var place = array[j] % 10;
             buckets[place][0] = array[j];
         }
     }
