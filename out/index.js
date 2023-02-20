@@ -19,15 +19,18 @@ function longestNumber(array) {
     }
     return 1;
 }
-function calculatePlace(passNumber) {
+function calculatePosition(value, passNumber) {
     if (passNumber === 0) {
-        return 10;
+        return Math.floor(value % 10);
     }
     else if (passNumber === 1) {
-        return 100;
+        return Math.floor((value / 10) % 10);
     }
     else if (passNumber === 2) {
-        return 1000;
+        return Math.floor((value / 100) % 10);
+    }
+    else if (passNumber === 3) {
+        return Math.floor((value / 1000) % 10);
     }
 }
 function radixSort(array) {
@@ -37,9 +40,9 @@ function radixSort(array) {
     }
     // now sort
     var numberOfPlaces = longestNumber(array);
-    for (var i = 0; i < numberOfPlaces; i++) {
+    for (var i = 0; i <= numberOfPlaces; i++) {
         for (var j = 0; j < array.length; j++) {
-            var place = array[j] % calculatePlace(i);
+            var place = calculatePosition(array[j], i);
             if (buckets[place] != undefined && place !== undefined) {
                 buckets[place].push(array[j]);
             }
@@ -47,15 +50,11 @@ function radixSort(array) {
         // buckets are sorted correctly
         // now pop everything off and put back into one array
         var newArray = [];
-        var columnCounter = 0;
         for (var j = 0; j < 10; j++) {
             while (buckets[j].length > 0) {
                 newArray.push(buckets[j].shift());
             }
         }
-        // for (let j = 0; j < array.length; j++) {
-        //     newArray[j] = newArray.shift();
-        // }
         array = newArray;
     }
     var holder = array;

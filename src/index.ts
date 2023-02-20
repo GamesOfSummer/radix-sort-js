@@ -26,13 +26,15 @@ function longestNumber(array: number[]) {
     return 1;
 }
 
-function calculatePlace(passNumber: number): number {
+function calculatePosition(value: number, passNumber: number): number {
     if (passNumber === 0) {
-        return 10;
+        return Math.floor(value % 10);
     } else if (passNumber === 1) {
-        return 100;
+        return Math.floor((value / 10) % 10);
     } else if (passNumber === 2) {
-        return 1000;
+        return Math.floor((value / 100) % 10);
+    } else if (passNumber === 3) {
+        return Math.floor((value / 1000) % 10);
     }
 }
 
@@ -43,10 +45,11 @@ function radixSort(array: number[]) {
     }
 
     // now sort
-    const numberOfPlaces = longestNumber(array);
-    for (let i = 0; i < numberOfPlaces; i++) {
+    // const numberOfPlaces = longestNumber(array);
+    const numberOfPlaces = 3;
+    for (let i = 0; i <= numberOfPlaces; i++) {
         for (let j = 0; j < array.length; j++) {
-            let place = array[j] % calculatePlace(i);
+            let place = calculatePosition(array[j], i);
 
             if (buckets[place] != undefined && place !== undefined) {
                 buckets[place].push(array[j]);
@@ -58,16 +61,11 @@ function radixSort(array: number[]) {
 
         let newArray = [];
 
-        let columnCounter = 0;
         for (let j = 0; j < 10; j++) {
             while (buckets[j].length > 0) {
                 newArray.push(buckets[j].shift());
             }
         }
-
-        // for (let j = 0; j < array.length; j++) {
-        //     newArray[j] = newArray.shift();
-        // }
 
         array = newArray;
     }
@@ -78,11 +76,15 @@ function radixSort(array: number[]) {
 
 consoleStart();
 
-// validateFxn(radixSort([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5]);
-// validateFxn(radixSort([1, 2, 3, 4, 5, 6]), [1, 2, 3, 4, 5, 6]);
+validateFxn(radixSort([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5]);
+validateFxn(radixSort([1, 2, 3, 4, 5, 6]), [1, 2, 3, 4, 5, 6]);
 validateFxn(
     radixSort([309, 910, 560, 994, 0, 111, 555]),
     [0, 111, 309, 555, 560, 910, 994]
+);
+validateFxn(
+    radixSort([30, 910, 5, 94, 0, 111, 555]),
+    [0, 5, 30, 94, 111, 555, 910]
 );
 
 consoleEnd();
